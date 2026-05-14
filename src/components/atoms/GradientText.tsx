@@ -8,8 +8,8 @@ interface GradientTextProps {
 }
 
 const gradientMap = {
-  accent: 'bg-gradient-to-r from-[#ff6b35] via-[#ff9f6b] to-[#22d3ee]',
-  cool: 'bg-gradient-to-r from-[#22d3ee] to-[#8b5cf6]',
+  accent: 'bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500',
+  cool: 'bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-500',
 };
 
 export const GradientText: React.FC<GradientTextProps> = memo(({

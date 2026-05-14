@@ -8,6 +8,7 @@ interface StatCardProps {
   icon: string;
   delay?: number;
   isActive?: boolean;
+  className?: string;
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -17,6 +18,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   icon,
   delay = 0,
   isActive = true,
+  className = '',
 }) => {
   const [count, setCount] = useState(0);
 
@@ -58,6 +60,7 @@ export const StatCard: React.FC<StatCardProps> = ({
         transition-all duration-300
         hover:border-accent/30 hover:glow-accent
         group
+        ${className}
       "
       initial={{ opacity: 0, y: 30 }}
       animate={isActive ? { opacity: 1, y: 0 } : {}}

@@ -8,7 +8,7 @@ interface SkillBadgeProps {
 
 export const SkillBadge: React.FC<SkillBadgeProps> = memo(({
   label,
-  color = '#ff6b35',
+  color = '#d946ef',
   className = '',
 }) => {
   return (

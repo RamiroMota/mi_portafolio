@@ -67,7 +67,7 @@ return (
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1]">
             Hola, soy{' '}
-            <GradientText className="block mt-0.5">
+            <GradientText className="block mt-0.5 !bg-gradient-to-r !from-fuchsia-500 !to-cyan-500">
               Ramiro Mota,
             </GradientText>
             <span className="block text-text-primary mt-0.5">
