@@ -81,15 +81,15 @@ ${form.message}
             animate={isActive ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="glass rounded-xl sm:rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4 w-full">
+            <div className="glass rounded-xl sm:rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-3 sm:gap-4 w-full">
               <img
                 src="/assets/avatar-contac.png"
                 alt="Contact avatar"
-                className="w-24 h-24 sm:w-32 sm:h-32 md:w-100 md:h-100 object-contain mb-2"
+                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain mb-1 lg:mb-2"
               />
-              <div className="space-y-2">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-text-primary">¡Colaboremos!</h3>
-                <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
+              <div className="space-y-1 sm:space-y-2">
+                <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold text-text-primary">¡Colaboremos!</h3>
+                <p className="text-text-secondary text-[11px] xs:text-xs sm:text-sm sm:text-base leading-relaxed">
                   Siempre abierto a nuevas ideas y proyectos innovadores.
                 </p>
               </div>
@@ -99,16 +99,16 @@ ${form.message}
           {/* Column 2 — Form */}
           <motion.form
             onSubmit={handleSubmit}
-            className="lg:col-span-8 glass rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col gap-4 h-full"
+            className="lg:col-span-8 glass rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col gap-3 sm:gap-4 h-full"
             initial={{ opacity: 0, x: 30 }}
             animate={isActive ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <input name="firstName" placeholder="Nombre" value={form.firstName} onChange={handleChange} className={inputClasses} />
               <input name="lastName" placeholder="Apellidos" value={form.lastName} onChange={handleChange} className={inputClasses} />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <input name="email" type="email" placeholder="Correo Electrónico" value={form.email} onChange={handleChange} className={inputClasses} />
               <input name="phone" type="tel" placeholder="Teléfono" value={form.phone} onChange={handleChange} className={inputClasses} />
             </div>
@@ -122,14 +122,14 @@ ${form.message}
             <textarea
               name="message"
               placeholder="Tu Mensaje"
-              rows={5}
+              rows={4}
               value={form.message}
               onChange={handleChange}
               className={`${inputClasses} resize-none`}
             />
             <GlowButton 
               id="btn-send-message" 
-              className={`w-full mt-2 py-4 text-base font-bold transition-all duration-300 ${
+              className={`w-full mt-1 sm:mt-2 py-3 sm:py-4 text-sm sm:text-base font-bold transition-all duration-300 ${
                 status === 'success' ? '!bg-green-500 !shadow-green-500/50' : ''
               }`}
               disabled={status === 'sending'}

@@ -136,20 +136,18 @@ export const AboutSlide: React.FC<AboutSlideProps> = ({ isActive = true }) => {
 
           {/* Right — Stats Grid */}
           <motion.div
-            className="flex flex-col gap-3 sm:gap-4 lg:h-full"
+            className="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-col gap-3 sm:gap-4 lg:h-full"
             initial={{ opacity: 0, x: 40 }}
             animate={isActive ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {/* First two stats as full-width cards to match the left column cadence */}
-            <StatCard {...stats[0]} delay={500} isActive={isActive} className="lg:flex-1" />
-            <StatCard {...stats[1]} delay={700} isActive={isActive} className="lg:flex-1" />
+            {/* First two stats */}
+            <StatCard {...stats[0]} delay={500} isActive={isActive} className="sm:col-span-1 lg:flex-1" />
+            <StatCard {...stats[1]} delay={700} isActive={isActive} className="sm:col-span-1 lg:flex-1" />
             
-            {/* Last two stats side-by-side in the third row */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:flex-1">
-              <StatCard {...stats[2]} delay={900} isActive={isActive} />
-              <StatCard {...stats[3]} delay={1100} isActive={isActive} />
-            </div>
+            {/* Last two stats */}
+            <StatCard {...stats[2]} delay={900} isActive={isActive} className="sm:col-span-1 lg:flex-1" />
+            <StatCard {...stats[3]} delay={1100} isActive={isActive} className="sm:col-span-1 lg:flex-1" />
           </motion.div>
         </div>
       </div>

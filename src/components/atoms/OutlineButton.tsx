@@ -7,6 +7,7 @@ interface OutlineButtonProps {
   href?: string;
   className?: string;
   id?: string;
+  disabled?: boolean;
 }
 
 export const OutlineButton: React.FC<OutlineButtonProps> = ({
@@ -15,21 +16,19 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
   href,
   className = '',
   id,
+  disabled = false,
 }) => {
   const baseClasses = `
     relative inline-flex items-center justify-center gap-2
     px-7 py-3.5 rounded-xl
     bg-transparent
-    border border-border-hover text-text-primary
+    ${disabled ? 'border-border/50 text-text-secondary/50 cursor-not-allowed opacity-60' : 'border-border-hover text-text-primary hover:border-accent hover:text-accent hover:bg-accent/5 active:scale-[0.98] cursor-pointer'}
     font-semibold text-sm tracking-wide uppercase
     transition-all duration-300
-    hover:border-accent hover:text-accent hover:bg-accent/5
-    active:scale-[0.98]
-    cursor-pointer
     ${className}
   `;
 
-  if (href) {
+  if (href && !disabled) {
     return (
       <motion.a
         href={href}
@@ -45,11 +44,12 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
 
   return (
     <motion.button
-      onClick={onClick}
+      onClick={!disabled ? onClick : undefined}
       id={id}
+      disabled={disabled}
       className={baseClasses}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
+      whileHover={disabled ? {} : { scale: 1.03 }}
+      whileTap={disabled ? {} : { scale: 0.97 }}
     >
       {children}
     </motion.button>

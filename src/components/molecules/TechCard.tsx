@@ -83,13 +83,7 @@ export const TechCard: React.FC<TechCardProps> = ({
         <p className="text-[10px] sm:text-xs text-text-secondary font-medium">{description}</p>
       </div>
 
-      {/* Percentage */}
-      <span
-        className="text-[10px] sm:text-xs font-mono font-medium opacity-60 group-hover:opacity-100 transition-opacity"
-        style={{ color }}
-      >
-        {proficiency}%
-      </span>
+      {/* Percentage removed by request */}
     </motion.div>
   );
 };
