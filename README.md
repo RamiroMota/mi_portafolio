@@ -53,7 +53,7 @@ Desde la terminal en la raíz del proyecto:
 
 **Ramiro Mota**
 - [LinkedIn](https://linkedin.com)
-- [GitHub](https://github.com)
+- [GitHub](https://github.com/RamiroMota)
 
 ---
 Construido con ❤️ y mucha cafeína.

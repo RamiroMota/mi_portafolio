@@ -9,9 +9,9 @@ interface ContactSlideProps {
 }
 
 const contactInfo = [
-  { icon: FaEnvelope, label: 'Correo', value: 'hello@devcraft.pro', href: 'mailto:hello@devcraft.pro' },
+  { icon: FaEnvelope, label: 'Correo', value: 'ramiro.mota.tb@gmail.com', href: 'mailto:ramiro.mota.tb@gmail.com' },
   { icon: FaLinkedinIn, label: 'LinkedIn', value: '/in/devcraft-pro', href: 'https://linkedin.com' },
-  { icon: FaGithub, label: 'GitHub', value: '@devcraft-pro', href: 'https://github.com' },
+  { icon: FaGithub, label: 'GitHub', value: '@RamiroMota', href: 'https://github.com/RamiroMota' },
   { icon: FaMapMarkerAlt, label: 'Ubicación', value: 'México, MX', href: '#' },
 ];
 
@@ -20,13 +20,39 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ isActive = true }) =
     firstName: '', lastName: '', email: '', phone: '', subject: '', message: '',
   });
 
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', form);
+    setStatus('sending');
+
+    // Construct the email body
+    const subject = `Contacto Web: ${form.subject || 'Sin Asunto'} - ${form.firstName} ${form.lastName}`;
+    const body = `
+Nombre: ${form.firstName} ${form.lastName}
+Email: ${form.email}
+Teléfono: ${form.phone}
+Asunto: ${form.subject}
+
+Mensaje:
+${form.message}
+    `.trim();
+
+    // Generate mailto link
+    const mailtoLink = `mailto:ramiro.mota.tb@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Open the email client
+    window.location.href = mailtoLink;
+
+    // Show success state
+    setTimeout(() => {
+      setStatus('success');
+      setTimeout(() => setStatus('idle'), 3000);
+    }, 500);
   };
 
   const inputClasses = `
@@ -35,6 +61,7 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ isActive = true }) =
     text-text-primary text-sm placeholder:text-text-secondary/50
     outline-none transition-all duration-300
     focus:border-accent/50 focus:bg-white/8 focus:ring-1 focus:ring-accent/20
+    [&>option]:bg-[#1a2333] [&>option]:text-text-primary
   `;
 
   return (
@@ -46,60 +73,42 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ isActive = true }) =
       <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto relative z-10 overflow-y-auto overflow-x-hidden py-3 sm:py-4">
         <SectionTitle title="Ponte en Contacto" subtitle="El Último Slide" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
-          {/* Left — Info + Avatar */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-stretch">
+          {/* Column 1 — Intro & Avatar */}
           <motion.div
-            className="lg:col-span-2 flex flex-col gap-3 sm:gap-4"
+            className="lg:col-span-4 flex"
             initial={{ opacity: 0, x: -30 }}
             animate={isActive ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="flex items-center gap-3 sm:gap-4">
+            <div className="glass rounded-xl sm:rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4 w-full">
               <img
-                src="/assets/contact-avatar.png"
+                src="/assets/avatar-contac.png"
                 alt="Contact avatar"
-                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain"
+                className="w-24 h-24 sm:w-32 sm:h-32 md:w-100 md:h-100 object-contain mb-2"
               />
-              <div>
-                <h3 className="text-sm sm:text-base font-bold text-text-primary">¡Colaboremos!</h3>
-                <p className="text-text-secondary text-xs sm:text-sm">Siempre abierto a nuevas ideas.</p>
+              <div className="space-y-2">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-text-primary">¡Colaboremos!</h3>
+                <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
+                  Siempre abierto a nuevas ideas y proyectos innovadores.
+                </p>
               </div>
-            </div>
-
-            <div className="flex flex-col gap-2 sm:gap-2.5">
-              {contactInfo.map(({ icon: Icon, label, value, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="
-                    glass rounded-lg sm:rounded-xl px-3 sm:px-4 py-2 sm:py-2.5
-                    flex items-center gap-2 sm:gap-3
-                    text-text-secondary text-xs sm:text-sm
-                    transition-all duration-300
-                    hover:border-accent/30 hover:text-text-primary
-                    group touch-target
-                  "
-                >
-                  <Icon className="w-4 h-4 text-accent group-hover:scale-110 transition-transform flex-shrink-0" />
-                  <span className="font-medium truncate">{value}</span>
-                </a>
-              ))}
             </div>
           </motion.div>
 
-          {/* Right — Form */}
+          {/* Column 2 — Form */}
           <motion.form
             onSubmit={handleSubmit}
-            className="lg:col-span-3 glass rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 flex flex-col gap-3 sm:gap-3.5"
+            className="lg:col-span-8 glass rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col gap-4 h-full"
             initial={{ opacity: 0, x: 30 }}
             animate={isActive ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input name="firstName" placeholder="Nombre" value={form.firstName} onChange={handleChange} className={inputClasses} />
               <input name="lastName" placeholder="Apellidos" value={form.lastName} onChange={handleChange} className={inputClasses} />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input name="email" type="email" placeholder="Correo Electrónico" value={form.email} onChange={handleChange} className={inputClasses} />
               <input name="phone" type="tel" placeholder="Teléfono" value={form.phone} onChange={handleChange} className={inputClasses} />
             </div>
@@ -113,13 +122,21 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ isActive = true }) =
             <textarea
               name="message"
               placeholder="Tu Mensaje"
-              rows={3}
+              rows={5}
               value={form.message}
               onChange={handleChange}
               className={`${inputClasses} resize-none`}
             />
-            <GlowButton id="btn-send-message" className="w-full mt-1 touch-target">
-              Enviar Mensaje
+            <GlowButton 
+              id="btn-send-message" 
+              className={`w-full mt-2 py-4 text-base font-bold transition-all duration-300 ${
+                status === 'success' ? '!bg-green-500 !shadow-green-500/50' : ''
+              }`}
+              disabled={status === 'sending'}
+            >
+              {status === 'idle' && 'Enviar Mensaje'}
+              {status === 'sending' && 'Preparando Correo...'}
+              {status === 'success' && '¡Correo Generado! ✓'}
             </GlowButton>
           </motion.form>
         </div>
@@ -132,7 +149,7 @@ export const ContactSlide: React.FC<ContactSlideProps> = ({ isActive = true }) =
           transition={{ delay: 0.6 }}
         >
           <p>Portfolio &copy; {new Date().getFullYear()} Ramiro Mota. Todos los derechos reservados.</p>
-          <p className="font-mono opacity-60">Construido con Astro + React + TailwindCSS</p>
+          <p className="font-mono opacity-60">Hecho con ❤️ por Ramiro Mota</p>
         </motion.footer>
       </div>
     </div>

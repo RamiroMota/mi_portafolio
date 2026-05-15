@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { GradientText } from '../atoms/GradientText';
 import { GlowButton } from '../atoms/GlowButton';
 import { OutlineButton } from '../atoms/OutlineButton';
@@ -20,12 +20,21 @@ const roles = [
 
 export const HeroSlide: React.FC<HeroSlideProps> = ({ onNavigate }) => {
   const [roleIndex, setRoleIndex] = React.useState(0);
+  const [techIndex, setTechIndex] = React.useState(0);
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
+    const roleInterval = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % roles.length);
     }, 2800);
-    return () => clearInterval(interval);
+
+    const techInterval = setInterval(() => {
+      setTechIndex((prev) => (prev + 6) % techStack.length);
+    }, 4500);
+
+    return () => {
+      clearInterval(roleInterval);
+      clearInterval(techInterval);
+    };
   }, []);
 
 return (
@@ -147,62 +156,69 @@ return (
           />
 
           {/* Floating Tech Icons - Dynamically positioned around avatar */}
-          {techStack.map((tech, index) => {
-            // Position icons in a circle-like pattern around the avatar
-            const angles = [210, 330, 45, 150, 280, 10]; // Distribute them
-            const distances = ['45%', '42%', '48%', '46%', '44%', '47%'];
-            const angle = angles[index % angles.length];
-            const distance = distances[index % distances.length];
-            
-            return (
-              <motion.div
-                key={tech.id}
-                className="absolute z-20 hidden sm:block"
-                style={{
-                  top: `${50 + Math.sin((angle * Math.PI) / 180) * parseInt(distance)}%`,
-                  left: `${50 + Math.cos((angle * Math.PI) / 180) * parseInt(distance)}%`,
-                }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1,
-                  y: [0, index % 2 === 0 ? -15 : 15, 0],
-                  x: [0, index % 3 === 0 ? 10 : -10, 0]
-                }}
-                transition={{ 
-                  delay: 0.8 + (index * 0.1),
-                  duration: 0.5,
-                  y: {
-                    duration: 3 + (index * 0.5),
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  },
-                  x: {
-                    duration: 4 + (index * 0.3),
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }
-                }}
-              >
-                <motion.div 
-                  className="glass rounded-xl p-2 sm:p-3 shadow-xl border border-white/10 flex items-center justify-center bg-white/5 backdrop-blur-md"
-                  whileHover={{ 
-                    scale: 1.2, 
-                    rotate: 12,
-                    backgroundColor: "rgba(255, 255, 255, 0.15)",
-                    borderColor: tech.color + '44'
+          <AnimatePresence mode="popLayout">
+            {[0, 1, 2, 3, 4, 5].map((slotIndex) => {
+              const tech = techStack[(techIndex + slotIndex) % techStack.length];
+              
+              // Fixed positions for the 6 slots
+              const angles = [210, 330, 45, 150, 280, 10];
+              const distances = ['44%', '42%', '48%', '46%', '43%', '47%'];
+              const angle = angles[slotIndex];
+              const distance = distances[slotIndex];
+              
+              return (
+                <motion.div
+                  key={`${tech.id}-${slotIndex}`}
+                  className="absolute z-20 hidden sm:block"
+                  style={{
+                    top: `${50 + Math.sin((angle * Math.PI) / 180) * parseInt(distance)}%`,
+                    left: `${50 + Math.cos((angle * Math.PI) / 180) * parseInt(distance)}%`,
+                  }}
+                  initial={{ opacity: 0, scale: 0, rotate: -20 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1,
+                    rotate: 0,
+                    y: [0, slotIndex % 2 === 0 ? -12 : 12, 0],
+                    x: [0, slotIndex % 3 === 0 ? 8 : -8, 0]
+                  }}
+                  exit={{ opacity: 0, scale: 0, rotate: 20 }}
+                  transition={{ 
+                    opacity: { duration: 0.6 },
+                    scale: { duration: 0.6 },
+                    rotate: { duration: 0.6 },
+                    y: {
+                      duration: 3 + (slotIndex * 0.5),
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    },
+                    x: {
+                      duration: 4 + (slotIndex * 0.3),
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
                   }}
                 >
-                  <img
-                    src={tech.logoUrl}
-                    alt={tech.name}
-                    className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 object-contain"
-                    style={{ filter: `drop-shadow(0 0 8px ${tech.color}44)` }}
-                  />
+                  <motion.div 
+                    className="glass rounded-xl p-2 sm:p-3 shadow-xl border border-white/10 flex items-center justify-center bg-white/5 backdrop-blur-md"
+                    whileHover={{ 
+                      scale: 1.2, 
+                      rotate: 12,
+                      backgroundColor: "rgba(255, 255, 255, 0.15)",
+                      borderColor: tech.color + '44'
+                    }}
+                  >
+                    <img
+                      src={tech.logoUrl}
+                      alt={tech.name}
+                      className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 object-contain"
+                      style={{ filter: `drop-shadow(0 0 8px ${tech.color}44)` }}
+                    />
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            );
-          })}
+              );
+            })}
+          </AnimatePresence>
         </motion.div>
       </div>
     </div>
