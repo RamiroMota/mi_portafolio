@@ -38,7 +38,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       }}
     >
       {/* Image */}
-      <div className="relative overflow-hidden h-36 sm:h-40 md:h-44 md:h-48">
+      <div className="relative overflow-hidden h-20 xs:h-24 sm:h-28 md:h-32">
         <img
           src={imageUrl}
           alt={title}
@@ -53,51 +53,53 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Content */}
-      <div className="p-4 sm:p-5 flex flex-col flex-1 gap-2 sm:gap-3">
-        <h3 className="text-base sm:text-lg font-bold text-text-primary leading-tight">
+      <div className="p-2.5 xs:p-3 sm:p-5 flex flex-col flex-1 gap-1.5 sm:gap-3">
+        <h3 className="text-xs xs:text-sm sm:text-lg font-bold text-text-primary leading-tight line-clamp-1">
           {title}
         </h3>
-        <p className="text-text-secondary text-xs sm:text-sm leading-relaxed line-clamp-2 flex-1">
+        <p className="text-text-secondary text-[10px] xs:text-xs sm:text-sm leading-relaxed line-clamp-2 flex-1">
           {description}
         </p>
 
-        {/* Tech Badges */}
-        <div className="flex flex-wrap gap-1 sm:gap-1.5 mt-1">
-          {technologies.slice(0, 4).map((tech) => (
+        {/* Tech Badges - Hidden on very small screens to save space */}
+        <div className="hidden xs:flex flex-wrap gap-1 sm:gap-1.5 mt-1">
+          {technologies.slice(0, 2).map((tech) => (
             <SkillBadge key={tech} label={tech} color="#94a3b8" />
           ))}
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 sm:gap-2.5 mt-1 sm:mt-2">
+        <div className="flex gap-1.5 sm:gap-2.5 mt-1 sm:mt-2">
           {caseStudyUrl && (
             <a
               href={caseStudyUrl}
               className="
-                flex-1 text-center px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl
+                flex-1 text-center px-1.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl
                 bg-accent/10 text-accent
-                text-[10px] sm:text-xs font-semibold uppercase tracking-wider
+                text-[9px] xs:text-[10px] sm:text-xs font-semibold uppercase tracking-wider
                 border border-accent/20
                 transition-all duration-300
                 hover:bg-accent hover:text-white
               "
             >
-              Case Study
+              <span className="hidden xs:inline">Case Study</span>
+              <span className="xs:hidden">Info</span>
             </a>
           )}
           {liveDemoUrl && (
             <a
               href={liveDemoUrl}
               className="
-                flex-1 text-center px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl
+                flex-1 text-center px-1.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl
                 bg-cyan/10 text-cyan
-                text-[10px] sm:text-xs font-semibold uppercase tracking-wider
+                text-[9px] xs:text-[10px] sm:text-xs font-semibold uppercase tracking-wider
                 border border-cyan/20
                 transition-all duration-300
                 hover:bg-cyan hover:text-bg-primary
               "
             >
-              Live Demo
+              <span className="hidden xs:inline">Live Demo</span>
+              <span className="xs:hidden">Demo</span>
             </a>
           )}
         </div>

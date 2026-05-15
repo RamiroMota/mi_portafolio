@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SectionTitle } from '../atoms/SectionTitle';
 import { ProjectCard } from '../molecules/ProjectCard';
 import { projects } from '../../data/projects';
@@ -22,22 +23,32 @@ export const ProjectsSlide: React.FC<ProjectsSlideProps> = ({ isActive = true })
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 right-1/4 w-[150px] h-[150px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[300px] rounded-full bg-accent/4 blur-[60px] sm:blur-[80px] max-w-[60vw]" />
       </div>
-      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl mx-auto relative z-10 py-3 sm:py-4">
+      
+      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl mx-auto relative z-10 py-4 sm:py-6">
         <SectionTitle 
           title="Proyectos Destacados" 
-          subtitle={`Explora mis soluciones (Página ${currentPage + 1} de ${totalPages})`} 
+          subtitle={`Página ${currentPage + 1} de ${totalPages}`} 
         />
         
         <div className="relative min-h-[400px] sm:min-h-[450px]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
-            {paginatedProjects.map((project, i) => (
-              <ProjectCard key={project.id} {...project} index={i} isActive={isActive} />
-            ))}
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              {paginatedProjects.map((project, i) => (
+                <ProjectCard key={project.id} {...project} index={i} isActive={isActive} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex items-center justify-center gap-4 mt-6 sm:mt-8">
+        <div className="flex items-center justify-center gap-4 mt-8 sm:mt-12">
           <button
             onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
             disabled={currentPage === 0}
@@ -52,7 +63,7 @@ export const ProjectsSlide: React.FC<ProjectsSlideProps> = ({ isActive = true })
                 key={i}
                 onClick={() => setCurrentPage(i)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  currentPage === i ? 'bg-accent w-6' : 'bg-white/20'
+                  currentPage === i ? 'bg-accent w-6 shadow-[0_0_8px_var(--color-accent)]' : 'bg-white/20'
                 }`}
               />
             ))}
