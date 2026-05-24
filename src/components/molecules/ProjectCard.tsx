@@ -82,8 +82,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 hover:bg-accent hover:text-white
               "
             >
-              <span className="hidden xs:inline">Case Study</span>
-              <span className="xs:hidden">Info</span>
+              <span className="hidden xs:inline">Repositorio</span>
+              <span className="xs:hidden">Repo</span>
             </a>
           )}
           {liveDemoUrl && (
