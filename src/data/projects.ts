@@ -43,4 +43,12 @@ export const projects: Project[] = [
     technologies: ['JavaScript', 'Google Apps Script', 'Gmail API', 'Google Drive API', 'nodemailer'],
     caseStudyUrl: 'https://github.com/RamiroMota/Script-automaticos/tree/main/Script-Automatizaci%C3%B3n/Formato%20Minutas%20-%20Comit%C3%A9%20Para%20El%20Desarrollo%20Docente',
   },
+  {
+    id: 'Data-studio-CES',
+    title: 'Data Studio CES Altas',
+    description: 'Dashboard de análisis de datos para medir el las altas a los cursos a la plataforma de Partners In Healt ONG asociada a Jhonson & Jhonson.',
+    imageUrl: '/assets/project-2.png',
+    technologies: ['Google Data Studio', 'Google Sheets', 'Google Apps Script'],
+    liveDemoUrl: 'https://datastudio.google.com/s/vZ1qjmIQdUw',
+  },
 ];
